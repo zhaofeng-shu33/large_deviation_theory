@@ -5,6 +5,7 @@
 \usepackage[thehwcnt=2]{iidef}
 \DeclareMathOperator{\mF}{\mathcal{F}}
 \DeclareMathOperator{\Bern}{Bern}
+%\DeclareMathOperator{\Var}{Var}
 \usepackage[utf8]{inputenc}
 \thecourseinstitute{Tsinghua-Berkeley Shenzhen Institute}
 %\title{ldp-1}
@@ -73,15 +74,23 @@
     follow $\Bern(\frac{1}{2})$. Therefore, $X_n \xrightarrow{d} X,
     Y_n \xrightarrow{d} Y$ where we choose $X=Y=X_n$.
     However, $Z_n = X_n Y_n = 0$ in a sense that $Z_n(0)=Z_n(1)=0$.
+    
     Therefore, $Z_n$ does not converge to $XY=X^2$ in distribution.
-    \item We divide the proof into two parts.
-    \begin{enumerate}
-        \item  $X_n \xrightarrow{d} X, Y_n \xrightarrow{d} Y,
-        X_n \Perp Y_n, X \Perp Y\Rightarrow X_n + Y_n \xrightarrow{d} X+Y$.
-        \item  $X_n \xrightarrow{d} X \Rightarrow
-        X^2_n \xrightarrow{d} X^2
-        $
-    \end{enumerate}
+    \item By Skorokhod's representation, we can find independent uniform random variables $U_n, V_n, U,V$ on $[0,1]$ such that
+    $U_n, V_n(U,V)$ have the same distribution $X_n,Y_n(X,Y)$.
+    and $U_n \xrightarrow{a.s} U$ and $V_n \xrightarrow{a.s.} V$. Then $U_n V_n \xrightarrow{a.s.} UV$.
+    Since $X_n, Y_n(X,Y)$ are independent, so are $U_n, V_n(U,V)$.
+    $P(U_n \leq t_1, V_n \leq t_2) = P(U_n \leq t_1) P(V_n \leq t_2) = P(X_n \leq t_1) P(Y_n \leq t_2) = P(X_n \leq t_1, Y_n \leq t_2)$.
+    Therefore, they have the same joint distribution.
+    Then for any bounded continuous function $f$,
+    $\mathbb{E}[f(X_n Y_n)]
+    = \mathbb{E}[f(U_n V_n)]$. Using the bounded
+    convergence theorem we have
+    $\lim_{n\to \infty} \mathbb{E}[f(U_n V_n)] = 
+    \mathbb{E}[f(UV)] = \mathbb{E}[f(XY)]$.
+    We get $\mathbb{E}[f(X_n Y_n)] \to \mathbb{E}[f(XY)]$
+    for any bounded continuous function.
+    Then $X_n Y_n \xrightarrow{d} XY$.
 \end{enumerate}
 \item
 \begin{enumerate}
@@ -111,31 +120,63 @@
     \end{enumerate} 
     \item Since almost surely convergence implies convergence
     in probability. We only need to prove the other part.
-    That is, if $S_n \xrightarrow{p} c$ under the extra
-    conditions, we can get $S_n \xrightarrow{a.s.} c$.
-    If the conclusion holds for $\mathbb{E}[X_n]=0$.
-    For general case, consider $X'_n = X_n -\mathbb{E}[X_n]$,
-    which is also bounded almost surely. and
-    $|\mathbb{E}[S_n] - c| \leq P(|S_n - c|>\epsilon) C +
-    (1-P(|S_n - c|>\epsilon)\epsilon$ where $|S_n| \leq $.
-    We will show that $\sum \mathbb{E}[S_n] \to c$ as well.
-    Since $\mathbb{E}[S_n]^2 \leq \mathbb{E}^2 = \sum_{i=1}^n
-    \sum_{i=1}^n \mathbb{E}[X_i^2]$ using the independence of
-    $X_i$.
-    ...
-    Now suppose $\mathbb{E}[X_n]=0$ holds for all $X_n$.
-    Since $S_n$ converges in probability to $0$,
-    for any $m$ we have
-    $P(|\sum_{i=1}^m X_{n+i}|>\epsilon) \to 0$ as $n\to \infty$.
-    Now using Kolmogorov's inequality for $S_k,  n \leq k \leq n+m$ we have
+    The proof is divided into three lemmas.
+    \begin{enumerate}
+        \item If $X_i$ are independent, $\sum_{n=1}^{\infty}
+        \mathbb{E}[X_n^2]$ converges and $S_n \xrightarrow{p} c$ for some constant. Then $  \sum_{i=1}^{n} \mathbb{E}[X_i]$ also converges.
+        \begin{proof}
+        Since $\Var[S_n] \geq 0 $, $S_n^2 \leq \sum_{i=1}^n \mathbb{E}[X_i^2]$. Since $\sum_{n=1}^{\infty}
+        \mathbb{E}[X_n^2]$ converges, $|S_n| \leq M$
+        for all $n$.
+        $|\mathbb{E}[S_n] - c| \leq 2P(|S_n - c|>\epsilon) M +
+    (1-P(|S_n - c|>\epsilon)\epsilon$ where $P(|S_n - c|>\epsilon)$ converges to zero. Therefore
+    $\mathbb{E}[S_n] \to c$.  
+        \end{proof}
+        \item If $X_i$ are independent random variables, $\mathbb{E}[X_n]=0, S_n \xrightarrow{d} S$
+        and $|X_n| < c$ for some constant. Then $\sum_{n=1}^{\infty} \mathbb{E}[X_n^2]$ converges.
+        \begin{proof}
+        We proceed by contradiction and assume that
+        $\sum_{n=1}^{\infty} \mathbb{E}[X_n^2] = \infty$.
+        Since $\mathbb{E}[X_n^3] \leq c \mathbb{E}[X_n^2]$,
+        for $S_n$ we can check the condition in Central Limit Theorem (Lyapunov): $\frac{\sum_{i=1}^n \mathbb{E}[X_n^3]}{(\sum_{i=1}^n \mathbb{E}[X_n^2])^{3/2}} \leq \frac{c}{(\sum_{i=1}^n \mathbb{E}[X_n^2])^{1/2}} \to 0$.
+        Therefore, $\frac{S_n}{(\sum_{i=1}^n \mathbb{E}[X_n^2])^{1/2}} \xrightarrow{d} \mathcal{N}(0,1)$.
+        Then $P(S_n \geq t) \to 1 - \Phi(\frac{t}{\sum_{i=1}^n \mathbb{E}[X_n^2])^{1/2}}) \sim \frac{1}{2} $.
+        On the other hand, $S_n \xrightarrow{d} S$, which
+        implies
+        $P(S\geq t) = \frac{1}{2}$, which is impossible
+        for a valid random variable. Therefore, 
+        $\sum_{n=1}^{\infty} \mathbb{E}[X_n^2] \leq \infty$.
+        \end{proof}
+        \item Let $X_i$ be independent,
+        and both $S_n=\sum_{i=1}^{n} \mathbb{E}[X_i]$ and
+        $\sum_{i=1}^{n} \mathbb{E}[X^2_i]$ converge.
+        Then $S_n$ converges almost surely.
+        \begin{proof}
+            We first that the conclusion holds for $\mathbb{E}[X_n]=0$.
+            For general case, consider $X'_n = X_n -\mathbb{E}[X_n]$, which has zero mean,
+            and $\sum_{i=1}^n \mathbb{E}[X'^2_n] = \sum_{i=1}^n \mathbb{E}[X^2_n] - \sum_{i=1}^n \mathbb{E}^2[X_n]
+            \leq \sum_{i=1}^n \mathbb{E}[X^2_n]$.
+            Therefore, $\sum_{i=1}^n \mathbb{E}[X'^2_n]$
+            converges.
+            Using Kolmogorov's inequality for $S_k,  n \leq k \leq n+m$ we have
     $$
     P(\max_{n\leq k \leq n+m} |S_k| \leq \delta)
-    \leq \frac{1}{\delta^2} \mathbb{E}[(\sum_{k=1}^{m} X_k)^2]
+    \leq \frac{1}{\delta^2} \mathbb{E}[(\sum_{k=1}^{m} X_{n+k})^2] \to 0
     $$
-    $\mathbb{E}[(\sum_{k=1}^{m} X_k)^2]$ is bounded by
-    $\epsilon^2 + P(|\sum_{i=1}^m X_{n+i}|>\epsilon)$
-       
+    since $\sum_{n=1}^{\infty}\mathbb{E}[X^2_n] \leq \infty$.
+    By Cauchy Convergence criterion, $S_n$ converges almost
+    surely.
+        \end{proof}
+    \end{enumerate}
+    For each $X_n$, we construct $X'_n$ which has the
+    same distribution but is independent  with $X$.
+    Consider $Y_n = X_n - X'_n$. Then $|Y_n| \leq 2$
+    and $\mathbb{E}[Y_n]=0$.
+    Since $S_n \xrightarrow{p} c$, $Y_n \xleftarrow{p} 0$, then $Y_n \xrightarrow{d} 0$.
+    By (b) we get $\sum_{n=1}^{\infty}\mathbb{E}[Y^2_n] \leq \infty$. Since $\mathbb{E}[Y^2_n]=2\mathbb{E}[X^2_n]$,
+    we have $\sum_{n=1}^{\infty}\mathbb{E}[X^2_n] \leq \infty$.
+    Then we can apply (a) and get $ \sum_{i=1}^{n} \mathbb{E}[X_i]$ converges. Finally we apply (c) and
+    reach the conclusion.
 \end{enumerate}
 
 \end{document}
-
