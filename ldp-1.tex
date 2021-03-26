@@ -1,0 +1,78 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[thehwcnt=1]{iidef}
+\DeclareMathOperator{\mF}{\mathcal{F}}
+\usepackage[utf8]{inputenc}
+\thecourseinstitute{Tsinghua-Berkeley Shenzhen Institute}
+%\title{ldp-1}
+%\author{zhaof17 }
+%\date{March 2021}
+\thecoursename{Large Deviation Theory}
+\theterm{Spring 2021}
+\begin{document}
+
+\courseheader
+\name{Feng Zhao}
+
+\begin{enumerate}
+\item
+\begin{enumerate}
+    \item Suppose $A_i = \bigcup_{j \in N} \{a_{ij}\}$, to show
+    $\bigcup_{i \in N} A_i$ is countable. We construct a mapping
+    $(i,j) \to \frac{(i+j)(i+j+1)}{2} + j$, which is a 1-1 mapping
+    from $N^2$ to $N$. Therefore, $\bigcup_{i \in N} A_i$ is countable.
+    \item $Q$ can be regarded as the subset of $N^2$. By the property
+    that "Any subset of a countable set is countable", we conclude that
+    $Q$ is countable.
+\end{enumerate}
+\item
+\begin{enumerate}
+    \item We can verify $\emptyset  \in \mF_0$. For
+    $A=\cup_{i=1}^n [a_i, b_i)$, $A^c = [0, a_1) \bigcup \cup_{i=1}^{n-1} [b_i, a_{i+1}) \bigcup [b_n, 1) \in \Omega$. Finally, for $A,B \in \mF_0$
+    we can decompose it into $A=A_1\cup C, B=B_1 \cup C$ where $C=A\cap B, A_1=A\backslash C, B_1=B\backslash C, \in \mF_0$. We can verify that
+    both $A_1, B_1, C$ are finite unions of intervals (left-close, right-open), and $A_1, B_1, C$ are disjoint.
+    Then $A\cup B=A_1\cup B_1 \cup C$ is the collection of interval representations, also finite unions of intervals.
+    $A, B \in \mF \Rightarrow A\cup B \in \mF_0$. Therefore, $\mF_0$
+    is an algebra. Consider $A_i = [\frac{1}{n}, 1)$, then
+    $\cup_{i=2}^{+\infty} A_i = (0, 1) \not\in \mF_0$. Therefore,
+    $\mF_0$ is not a $\sigma$-algebra.
+    \item Let $A=\cup_{i=1}^n [a_i, b_i)$, $B=\cup_{i=1}^m [c_i, d_i)$,
+    $b_n=d_m=1$ is impossible since $A \cap B= \emptyset$.
+    If one of $b_n, d_m=1$, $P(A\cup B)=1$ and $P(A)+P(B)=1$.
+    If $b_n, d_m < 1$, $P(A\cup B)=0$ and $P(A) + P(B)=0$. In either
+    case, $P(A\cup B)=P(A)+P(B)$. The finite additivity is satisfied.
+    \item Consider $A_n = [1-\frac{1}{n}, 1-\frac{1}{n+1})$ for $n\geq 2$, $A_n, n=2,3,\dots$ are disjoint, whose union is $[\frac{1}{2}, 1)$.
+    But $P([\frac{1}{2}, 1)) = 1$ while $P(A_n)=0$. The property of countable additivity is not satisfied.
+    \end{enumerate} 
+    \item Suppose $\sum_{n=1}^{\infty} P[X_n>c]$ converges, then
+    for any $\epsilon$, there exists $N$ such that
+    $\sum_{n=N}^{\infty} P[X_n>c] < \epsilon$.
+    By union bound,
+    $P[\sup_n X_n = \infty] \leq P[\exists n > N, X_n > c] \leq 
+    \sum_{n=N}^{\infty} P[X_n>c] < \epsilon$.
+    Since $\epsilon$ can be arbitrarily small, $P[\sup_n X_n = \infty]=0$.
+    
+    For the other side, we will show that
+    $\forall c > 0, \sum_{n=1}^{\infty} P[X_n > c] = \infty \Rightarrow P[\sup_n X_n = \infty]=1$. Let $A_n = \{w|X_n(w) > c \}$,
+    then $A_n$ are independent, 
+    by Borel-Contelli Lemma, we have $P[\cap_{n=1}^{\infty} \cup_{i=n}^{\infty} \{w|X_n(w)>c\}]=1$. Therefore,
+    $P[ \cup_{i=n}^{\infty} \{w|X_n(w)>c\}]=1$ holds for any $c,n$.
+    Then $P[ \cap_{i=n}^{\infty} \{w|X_n(w)\leq c\}]=0 \Rightarrow
+    P[ \{w|\sup_n X_n(w)\leq c\}]=0$. By union bound,
+    $P[\cup_{c=1}^{\infty}\{w | \sup_n X_n(w) \leq c \}]=0$, then
+    taking the complement we have
+    $P[\{\sup_n X_n = \infty\}]=1$.
+    
+   \item For any $c \in \mathbb{R}$, $\{w| \max\{X_1(w), X_2(w)\} \leq c\}
+       = \{w| X_1(w) \leq c\} \cap \{w| X_1(w) \leq c\} \in \mF$, 
+       $\{w| \sup_n X_n(w) \leq c\}
+       = \cap_{n} \{w| X_n(w) \leq c\} \in \mF$,
+       $\{w| \lim\sup_{n\to \infty} X_n(w) \geq c\}
+       = \bigcap_{n=1}^{\infty}\bigcup_{i=n}^{\infty} \{w| X_n(w) \geq c \} \in \mF$ ($\lim\sup_{n\to \infty} X_n(w)= \lim_{n\to \infty}(\sup_{i\geq n}X_i(w))$ is the limit of a decreasing series).
+       Therefore, $\max\{X_1, X_2\}, \sup_{n} X_n, \lim\sup_{n\to \infty} X_n$ are random variables.
+       
+\end{enumerate}
+
+\end{document}
+

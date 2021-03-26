@@ -1,0 +1,141 @@
+\documentclass{article}
+\usepackage{cmll}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[thehwcnt=2]{iidef}
+\DeclareMathOperator{\mF}{\mathcal{F}}
+\DeclareMathOperator{\Bern}{Bern}
+\usepackage[utf8]{inputenc}
+\thecourseinstitute{Tsinghua-Berkeley Shenzhen Institute}
+%\title{ldp-1}
+%\author{zhaof17 }
+%\date{March 2021}
+\thecoursename{Large Deviation Theory}
+\theterm{Spring 2021}
+\begin{document}
+
+\courseheader
+\name{Feng Zhao}
+
+\begin{enumerate}
+\item
+\begin{enumerate}
+    \item We divide the proof into
+    three parts.
+    \begin{enumerate}
+        \item If $X_n \xrightarrow{P} X, Y_n \xrightarrow{P} Y \Rightarrow X_n + Y_n \xrightarrow{P} X+Y$.
+        \begin{proof}
+        For any $\epsilon > 0$, since
+        the event $\{|X_n + Y_n - X- Y| > \epsilon\}
+        \subset \{|X_n - X |> \frac{\epsilon}{2}\} \cup
+        \{|Y_n - Y | > \frac{\epsilon}{2} \}$,
+        we have
+        \begin{align*}
+        \limsup_{n \to \infty}P(|X_n + Y_n - X- Y|>\epsilon)
+        &\leq \limsup_{n \to \infty}P(|X_n - X |> \frac{\epsilon}{2}) \\&+ \limsup_{n \to \infty}P(|X_n - X |> \frac{\epsilon}{2}) =0
+        \end{align*}
+        \end{proof}
+        \item If $X_n \xrightarrow{P} 0$ and $Y$ is a random variable,  $X_n Y \xrightarrow{P} 0$.
+        \begin{proof}
+        For any $\epsilon > 0$ and $A>0$, since
+        the event $\{|X_n Y| > \epsilon\}
+        \subset \{|X_n  |> \frac{\epsilon}{A}\} \cup
+        \{|Y | > A \}$,
+        we have
+        \begin{align*}
+        \limsup_{n \to \infty}P(|X_n  Y|>\epsilon)
+        &\leq \limsup_{n \to \infty}P(|X_n |> \frac{\epsilon}{A}) \\&+ P(|Y |> A) =
+        P(|Y |> A)
+        \end{align*}
+        Let $A\to \infty$, we have $P(|Y |> A) \to 0$.
+        Therefore $P(|X_n  Y|>\epsilon) \to 0$ as $n\to \infty$.
+        \end{proof}
+        \item If $X_n \xrightarrow{P} 0, Y_n \xrightarrow{P} 0 \Rightarrow X_n  Y_n \xrightarrow{P} 0$.
+        \begin{proof}
+        For any $\epsilon > 0$ and $A>0$, since
+        the event $\{|X_n Y_n| > \epsilon\}
+        \subset \{|X_n  |> \sqrt{\epsilon}\} \cup
+        \{|Y_n | > \sqrt{\epsilon} \}$,
+        we have
+        \begin{align*}
+        \limsup_{n \to \infty}P(|X_n  Y|>\epsilon)
+        &\leq \limsup_{n \to \infty}P(|X_n |> \sqrt{\epsilon}) \\&+ \limsup_{n \to \infty} P(|Y_n |> \sqrt{\epsilon}) =0
+        \end{align*}
+        \end{proof}
+    \end{enumerate}
+    Based on the above three conclusions, if $X_n \xrightarrow{P} X$ and $Y_n \xrightarrow{P} Y$,
+    we have $(X_n-X) Y_n = (X_n-X) (Y_n - Y) + Y (X_n-X) \xrightarrow{P} 0$ and
+    $X(Y_n-Y) \xrightarrow{P} 0$. Summing the two up we have
+    $X_nY_n-XY\xrightarrow{P} 0$.
+    
+    \item Let $\Omega=\{0,1\}$ with measure $P(\{0\})=P(\{1\})=\frac{1}{2}$.
+    $X_n(0)=1, X_n(1)=0$ while $Y_n(1)=1, Y_n(0)=0$. Then both $X_n, Y_n$
+    follow $\Bern(\frac{1}{2})$. Therefore, $X_n \xrightarrow{d} X,
+    Y_n \xrightarrow{d} Y$ where we choose $X=Y=X_n$.
+    However, $Z_n = X_n Y_n = 0$ in a sense that $Z_n(0)=Z_n(1)=0$.
+    Therefore, $Z_n$ does not converge to $XY=X^2$ in distribution.
+    \item We divide the proof into two parts.
+    \begin{enumerate}
+        \item  $X_n \xrightarrow{d} X, Y_n \xrightarrow{d} Y,
+        X_n \Perp Y_n, X \Perp Y\Rightarrow X_n + Y_n \xrightarrow{d} X+Y$.
+        \item  $X_n \xrightarrow{d} X \Rightarrow
+        X^2_n \xrightarrow{d} X^2
+        $
+    \end{enumerate}
+\end{enumerate}
+\item
+\begin{enumerate}
+    \item We choose $Z \sim \mathcal{N}(0,1)$. We discretize
+    $\epsilon$ using $\frac{1}{n}$. Then $X + \frac{Z}{n}$
+    converges to $X$ in probability. $X + \frac{Z}{n} \xrightarrow{d} X$ follows.
+    \item The CDF of $X_{\epsilon}$ is $F_{X_\epsilon}(a)
+    =P(X+\epsilon Z<a)=P(Z<\frac{a-X}{\epsilon})$. Since
+    $X \Perp Z$, $P(Z<\frac{a-X}{\epsilon})=\mathbb{E}[\Phi(\frac{a-X}{\epsilon})]$ where $\Phi$ is the CDF of standard Gaussian
+    distribution. Now let $a_n \to a$, then the random
+    variable $Y_n = \Phi(\frac{a_n-X}{\epsilon})$ converges
+    to $\Phi(\frac{a-X}{\epsilon})$ in probability.
+    Further $Y_n$ is uniformly bounded by 1.
+    By the bounded convergence theorem, we have
+    $E[Y_n] \to E[Y]$. That is, $F_{X_\epsilon}(a)$
+    is continuous. Since $\Phi$ is smooth function,
+    we can exchange the differential operation with
+    the expectation and get the PDF of $X_{\epsilon}$
+    as
+    $f_{X_{\epsilon}}(a) = \mathbb{E}[f_{Z}(\frac{a-X}{\epsilon})\frac{1}{\epsilon}]$.
+    \item Similar to (b). Using the bounded convergence theorem
+    we can show that $f_{X_{\epsilon}}(a) $
+    is continuous.
+    \item Since derivatives of $f_{Z}$ are uniformly
+    bounded, $X_{\epsilon}$ has a continuous,
+    bounded, infinitely-differentiable PDF.
+    \end{enumerate} 
+    \item Since almost surely convergence implies convergence
+    in probability. We only need to prove the other part.
+    That is, if $S_n \xrightarrow{p} c$ under the extra
+    conditions, we can get $S_n \xrightarrow{a.s.} c$.
+    If the conclusion holds for $\mathbb{E}[X_n]=0$.
+    For general case, consider $X'_n = X_n -\mathbb{E}[X_n]$,
+    which is also bounded almost surely. and
+    $|\mathbb{E}[S_n] - c| \leq P(|S_n - c|>\epsilon) C +
+    (1-P(|S_n - c|>\epsilon)\epsilon$ where $|S_n| \leq $.
+    We will show that $\sum \mathbb{E}[S_n] \to c$ as well.
+    Since $\mathbb{E}[S_n]^2 \leq \mathbb{E}^2 = \sum_{i=1}^n
+    \sum_{i=1}^n \mathbb{E}[X_i^2]$ using the independence of
+    $X_i$.
+    ...
+    Now suppose $\mathbb{E}[X_n]=0$ holds for all $X_n$.
+    Since $S_n$ converges in probability to $0$,
+    for any $m$ we have
+    $P(|\sum_{i=1}^m X_{n+i}|>\epsilon) \to 0$ as $n\to \infty$.
+    Now using Kolmogorov's inequality for $S_k,  n \leq k \leq n+m$ we have
+    $$
+    P(\max_{n\leq k \leq n+m} |S_k| \leq \delta)
+    \leq \frac{1}{\delta^2} \mathbb{E}[(\sum_{k=1}^{m} X_k)^2]
+    $$
+    $\mathbb{E}[(\sum_{k=1}^{m} X_k)^2]$ is bounded by
+    $\epsilon^2 + P(|\sum_{i=1}^m X_{n+i}|>\epsilon)$
+       
+\end{enumerate}
+
+\end{document}
+
