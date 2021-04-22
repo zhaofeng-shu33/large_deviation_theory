@@ -1,0 +1,142 @@
+\documentclass{article}
+\usepackage{cmll}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[thehwcnt=2]{iidef}
+\DeclareMathOperator{\mF}{\mathcal{F}}
+\DeclareMathOperator{\Bern}{Bern}
+\DeclareMathOperator{\Binom}{Binom}
+%\DeclareMathOperator{\Var}{Var}
+\usepackage[utf8]{inputenc}
+\thecourseinstitute{Tsinghua-Berkeley Shenzhen Institute}
+%\title{ldp-1}
+%\author{zhaof17 }
+%\date{March 2021}
+\thecoursename{Large Deviation Theory}
+\theterm{Spring 2021}
+\begin{document}
+
+\courseheader
+\name{Feng Zhao}
+
+\begin{enumerate}
+
+    \item Using the definition of Fisher information, we have
+    \begin{align*}
+        I(\theta) &= \int \frac{1}{\theta} \left(\frac{\partial}{\partial \theta} \log[\frac{f(x/\theta)}{\theta}]\right)f(\frac{x}{\theta})dx \\
+        &= \int \frac{1}{\theta} \left( \frac{f'(x/\theta)(-x)}{f(x/\theta)\theta^2}-\frac{1}{\theta}\right)f(\frac{x}{\theta})dx 
+    \end{align*}
+    After changing of variable, we get
+    $$
+    I(\theta)= \frac{1}{\theta^2}\int  \left( \frac{xf'(x)}{f(x)}+1\right)f(x)dx 
+    $$
+
+\item Let $\ell(x,y;\rho)=f_{\rho}(x,y)$, we first compute its partial derivative
+about $\rho$.
+\begin{equation*}
+    -\frac{\partial \ell(x,y;\rho)}{\partial \rho}
+    = \frac{1}{1-\rho^2}[-\rho + \frac{\rho(x^2+y^2-\rho xy)-xy}{1-\rho^2}]
+\end{equation*}
+The maximal value of $\sum_{i=1}^n \ell(x_i,y_i;\rho)$ is achieved when
+$\sum_{i=1}^n \frac{\partial \ell(x,y;\rho)}{\partial \rho}=0$, from
+which we get:
+$$
+g(\rho):=\rho^3 - B \rho^2 + (A-1)\rho - B=0
+$$
+where
+$    A = \sum_{i=1}^{n} x_i^2+y_i^2$ and
+$    B = \sum_{i=1}^n x_i y_i$.
+Since $g(1) = \sum_{i=1}^n (x_i-y_i)^2 > 0$, $g(-1)=-g(1)<0$ and $g'(\rho)>0$
+for $\rho\in [-1,1]$, there is a unique root of $g(\rho)=0$ in the interval
+$(-1,1)$, which is our MLE estimator $\hat{\rho}$.
+By the theorem of asymptotic normality, 
+$\sqrt{n}(\hat{\rho} - \rho) \xrightarrow{d} \mathcal{N}(0, \sigma^2_{\mathrm{MLE}})$ where $\sigma^2_{\mathrm{MLE}}=\frac{1}{I(\rho)}$.
+The second order derivative of $\ell(x,y;\rho)$ is given by
+\begin{equation*}
+    -\frac{\partial^2 \ell(x,y;\rho)}{\partial \rho^2}
+    = - \frac{1+\rho^2}{(1-\rho^2)^2}
+    + \frac{(1-\rho^2)[-2\rho xy+x^2+y^2]+4\rho[-\rho^2 xy + \rho (x^2+y^2)-xy]}{(1-\rho^2)^3}
+\end{equation*}
+Using $\E[X^2]=\E[Y^2]=1$ and $\E[XY]=\rho$, we can get
+\begin{equation*}
+    I(\rho)=-\E\left[\frac{\partial^2 \ell(X,Y;\rho)}{\partial \rho^2}\right]
+    = \frac{1+\rho^2}{(1-\rho^2)^2}
+\end{equation*}
+Therefore, $\sigma^2_{\mathrm{MLE}} = \frac{(1-\rho^2)^2}{1+\rho^2}$.
+    \item 
+    \begin{enumerate}
+        \item By trapezoidal rule, $\sum_{i=2}^{n-1} \ln i \leq \int_1^n \ln x dx - \frac{\ln n}{2}$.
+        Then $\ln (n!) = \sum_{i=2}^{n-1} + \ln n \leq \int_{1}^n xdx - \frac{\ln n}{2}+\ln n  = \ln n + n \ln n - n \Rightarrow n! \leq n(\frac{n}{e})^n$.
+        On the other hand, $\ln (n!) = \sum_{i=1}^n \ln i \geq \int_1^n \ln x dx = n \ln n - n +1 \geq n \ln n - n \Rightarrow n! \geq (\frac{n}{e})^n$.
+        \item We first prove that $\lim_{n\to \infty} \frac{1}{n} \log \binom{n}{k} = H(p)$ where $H(p):=-p\log p-(1-p)\log(1-p)$ is the entropy of Bernoulli
+        random variable $\Bern(p)$.
+        Indeed, using the inequality in (a), we have
+        \begin{align*}
+            &\binom{n}{k} = \frac{n!}{(n-k)!k!} \leq \frac{n(n/e)^n}{((n-k)/e)^{n-k
+            } (k/e)^k} \\
+            \Rightarrow & \frac{1}{n}\log\binom{n}{k} 
+            \leq \frac{\log n}{n} - \frac{n-k}{n} \log \frac{n-k}{n}
+            -\frac{k}{n} \log \frac{k}{n}
+        \end{align*}
+        Similarly $\frac{1}{n}\log\binom{n}{k} \geq \frac{-\log k - \log(n-k)}{n} - \frac{n-k}{n} \log \frac{n-k}{n}
+            -\frac{k}{n} \log \frac{k}{n}$.
+            As $n \to \infty$, $k/n\to p$. Therefore, $\lim_{n\to \infty} \frac{1}{n} \log \binom{n}{k} = H(p)$.
+            Similar argument can be made to show that
+            \begin{equation*}
+                \lim_{n\to \infty}\frac{1}{n}\log \binom{n}{\lfloor np_1
+            \rfloor\dots \lfloor np_{m-1}
+            \rfloor(n-\sum_{i=1}^{m-1} \lfloor np_i \rfloor)}
+                = H(p_1, \dots, p_{m})
+            \end{equation*}
+            where $H(p_1, \dots, p_m):=-\sum_{i=1}^m p_i \log p_i$ is the entropy
+            of categorical distribution with parameter $(p_1, \dots, p_m)$.
+    \end{enumerate}
+    \item
+    \begin{enumerate}
+        \item We will show another general inequality:
+        \begin{equation}\label{eq:general}
+            \sum_{i=0}^d \binom{k}{i} q^i(1-q)^{k-i}
+            \leq \exp(-k D(\frac{d}{k}||q)) \textrm{ for } d < kq
+        \end{equation}
+        for $q\in(0,1)$.
+        If $q=\frac{1}{2}$, then \eqref{eq:general} becomes
+        $\sum_{i=0}^d \binom{k}{i} \leq \exp(kh(d/k))$, which is the
+        inequality required. We also observe the fact that if we make
+        variable transformation $d'=k-d, q'=1-q$, then \eqref{eq:general} becomes
+        \begin{equation}\label{eq:general2}
+            \sum_{i=d}^k \binom{k}{i} q^i(1-q)^{k-i}
+            \leq \exp(-k D(\frac{d}{k}||q)) \textrm{ for } d > kq
+        \end{equation}
+        Equation \eqref{eq:general2} is equivalent with \eqref{eq:general}
+        and we only need to show
+        \eqref{eq:general2}. Consider
+        a Binomial distribution $X\sim \Binom(k, q)$, then the probability
+        $P(X \geq d)$ equals the left hand of \eqref{eq:general2}.
+        Using Chernoff inequality, we have
+        \begin{equation*}
+            P(X\geq d) \leq \frac{\E[\exp(sX)]}{e^{sd}} = \exp(k[\ln(1-q+qe^s)-s\frac{d}{k}])
+        \end{equation*}
+        We choose $s>0$ to minimize the right hand side of the above equation: $s=\ln\frac{(1-q)d}{q(k-d)}$. Then after simplification
+        we get $P(X\geq d) \leq \exp(-kD(\frac{d}{k}||q))$.
+        \item We have already shown that $P(X \geq d)$ is upper bounded
+        by $\exp(-kD(\frac{d}{k}||q))$ for $d>kq$, and $P(X \leq d)
+        \leq \exp(-kD(\frac{d}{k}||q))$ for $d<kq$.
+        
+        To get the lower bound, we just need the inequality
+        \begin{equation}
+            \binom{k}{d} \geq \frac{1}{k+1} (d/k)^{-k} (\frac{k-d}{k})^{d-k}
+        \end{equation}
+        which is (11.50) from \cite{elements}.
+        Then $P(X\geq d) \geq \binom{k}{d} q^d (1-q)^{k-d}
+        \geq \frac{1}{k} q^d (1-q)^{k-d} (d/k)^{-k} (\frac{k-d}{k})^{d-k}
+        =\frac{1}{k+1} \exp(-kD(\frac{d}{k}||q))$
+        
+        
+        
+    \end{enumerate}
+\end{enumerate}
+\begin{thebibliography}{9}
+\bibitem{elements} Cover, Thomas M. Elements of information theory. John Wiley \& Sons, 1999.
+\end{thebibliography}
+\end{document}
+
