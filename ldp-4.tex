@@ -1,0 +1,102 @@
+\documentclass{article}
+\usepackage{cmll}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[thehwcnt=4]{iidef}
+\usepackage{url}
+\DeclareMathOperator{\mF}{\mathcal{F}}
+\DeclareMathOperator{\Bern}{Bern}
+\DeclareMathOperator{\Binom}{Binom}
+%\DeclareMathOperator{\Var}{Var}
+\usepackage[utf8]{inputenc}
+\thecourseinstitute{Tsinghua-Berkeley Shenzhen Institute}
+%\title{ldp-1}
+%\author{zhaof17 }
+%\date{March 2021}
+\thecoursename{Large Deviation Theory}
+\theterm{Spring 2021}
+\begin{document}
+
+\courseheader
+\name{Feng Zhao}
+
+\begin{enumerate}
+\item We define $\phi(x)=\frac{1}{\sqrt{2\pi}}\exp(-\frac{x^2}{2})$
+and $Q(t) = \int_t^{+\infty} \phi(x)dx$. To show
+$\frac{t}{1+t^2} \phi(t) \leq Q(t) \leq \frac{\phi(t)}{t}$. We make use of integral by part
+and the equality $\phi'(t)=-t\phi(t)$.
+Then
+\begin{align*}
+    Q(t) &= \int_t^{+\infty} \frac{\phi'(x)}{-x}dx\\
+    &=\frac{\phi(t)}{t}-\int_t^{+\infty}\frac{\phi(x)}{x^2}dx\leq \frac{\phi(t)}{t} \\
+\end{align*}
+which gives the upper bound.
+For lower bound \cite{elements},
+since $(\frac{\phi(u)}{u})'=\frac{u\phi'(u)-\phi(u)}{u^2}=-\frac{u^2\phi(u)+\phi(u)}{u^2}=-(1+\frac{1}{u^2})\phi(u)$
+\begin{align*}
+    \left(1+\frac1{x^2}\right)Q(t) &=\int_x^\infty \left(1+\frac1{x^2}\right)\phi(u)\,du \\&>\int_x^\infty \left(1+\frac1{u^2}\right)\phi(u)\,du =-\biggl.\frac{\phi(u)}u\biggr|_x^\infty
+=\frac{\phi(x)}x.
+\end{align*}
+\item To show $\sup_{t\geq 0}f(t)=f(0)=\frac{1}{2}$
+where $f(t)= Q(t) \exp(t^2/2)$, we take the derivative
+$f'(t)=-\phi(t)\exp(t^2/2) + tQ(t)$.
+From Problem 1, $Q(t)\leq \phi(t)/ t$, then
+$f'(t)\leq -\phi(t)\exp(t^2/2)+\phi(t)\leq 0$ since $\exp(t^2/2)\geq 1$. Therefore, $f(t)$ decreases
+in the interval $[0,+\infty)$, and $\sup_{t\geq 0}f(t)=f(0)$.
+\item 
+\begin{enumerate}
+    \item For Poisson distribution,
+    $\E[e^{\lambda X}] = \sum_{k=0}^{+\infty}
+    e^{k\lambda} \frac{\theta^k e^{-\theta}}{k!}
+    =\exp(e^{\lambda }\theta - \theta)$.
+    Therefore, the log-MGF $\psi_X(\lambda)= \theta(e^{\lambda} - 1)$. We solve
+    $t=\psi_X'(\lambda)$ and get $\lambda = \log(t/\theta)$, therefore, $\psi_X^*(t)=
+    \theta - t + t\log\frac{t}{\theta}$
+    \item For Bernoulli distribution,
+    its log-MGF $\psi_X(\lambda)=\log(pe^{\lambda}+1-p)$.
+     We solve
+    $t=\psi_X'(\lambda)$ and get $\lambda = \log\frac{t(1-p)}{p(1-t)}$, therefore, $\psi_X^*(t)=
+    t\log\frac{t(1-p)}{p(1-t)}-\log\frac{1-p}{1-t}
+    =D_{\mathrm{KL}}(\mathrm{Bern}(t)||\mathrm{Bern}(p))$
+    \item For Exponential distribution,
+    \begin{equation*}
+    \E[e^{\lambda X}] = \int_0^{+\infty}
+    \theta e^{-\theta x}e^{\lambda x}dx
+    =
+    \begin{cases}
+    \frac{\theta}{\theta - \lambda} & \lambda < \theta \\
+    +\infty & \lambda \geq \theta
+    \end{cases}
+    \end{equation*}
+Its log-MGF 
+ \begin{equation*}
+ \psi_X(\lambda)=
+ \begin{cases}
+ \log\frac{\theta}{\theta - \lambda} & \lambda < \theta \\
+    +\infty & \lambda \geq \theta
+  \end{cases}
+ \end{equation*}
+     We solve
+    $t=\psi_X'(\lambda)$ and get
+    \begin{equation*}
+    \lambda = \begin{cases}\theta - \frac{1}{t} & t > 0
+    \\
+    -\infty & t \leq 0
+    \end{cases}
+ \end{equation*} Therefore,
+    \begin{equation*}
+ \psi^*_X(\lambda)=
+ \begin{cases}
++\infty & t \leq 0 \\
+    t\theta - 1 -\log(t\theta) & t >0
+  \end{cases}
+ \end{equation*}
+    
+\end{enumerate}
+
+\end{enumerate}
+\begin{thebibliography}{9}
+\bibitem{elements} \url{https://en.wikipedia.org/wiki/Q-function#Bounds_and_approximations}
+\end{thebibliography}
+\end{document}
+
