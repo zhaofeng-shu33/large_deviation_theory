@@ -19,7 +19,7 @@ numberstyle=\tiny\color{mygray}
 
 \newif\ifbeamer
 \beamertrue
-
+\setbeamertemplate{footline}[frame number]
 \title{Hypothesis Testing Problem in Stochastic Block Model}
 \author{Feng Zhao}
 %\institute{\inst{1}Dept. of Electronic Engineering, Tsinghua University
@@ -29,10 +29,10 @@ numberstyle=\tiny\color{mygray}
 \begin{frame}
 	\titlepage
 \end{frame}
-\section*{Outline}
-\begin{frame}
-	\tableofcontents
-\end{frame}
+%\section*{Outline}
+%\begin{frame}
+%	\tableofcontents
+%\end{frame}
 
 \section{Mathematical Formulation}
 \begin{frame}
@@ -94,7 +94,7 @@ H_1: X \sim P_1=(Q \times P)
 \end{equation*}
 Chernoff information for optimal test $\widehat{H}$
 \begin{equation*}
--\lim \frac{1}{n}\log P_e = -2 \log \sum_{x\in \mathcal{X}} \sqrt{P(x)Q(x)}
+-\lim_{n\to \infty} \frac{1}{n}\log P_e = -2 \log \sum_{x\in \mathcal{X}} \sqrt{P(x)Q(x)}
 \end{equation*}
 Rényi divergence with order $\frac{1}{2}$
 \begin{equation*}
@@ -136,8 +136,9 @@ H_1: Y_1 = -1 \textrm{ and } Y_2 = 1 \iff X \sim \Bern(q) \times \Bern(p)
 \item $n-1$ i.i.d. edge observations of $X$
 \item Chernoff information for optimal test $\widehat{H}$
 \begin{equation*}
--\lim \frac{1}{n}\log P_e = -2 \log (\sqrt{pq}+\sqrt{(1-p)(1-q)})
+-\lim_{n\to\infty} \frac{1}{n}\log P_e = -2 \log (\sqrt{pq}+\sqrt{(1-p)(1-q)})
 \end{equation*}
+\item What if $p,q$ varies with $n$?
 \end{itemize}
 \end{frame}
 \section{Cramér Theorem and Chernoff Information}
@@ -178,38 +179,38 @@ Chernoff Information
 \end{itemize}
 \begin{equation*}
 -\lim_{n\to\infty} \frac{1}{\textcolor{red}{\gamma_n}}\log P_e = \psi^*_P(0)
-=-\min_{\lambda\in[0,1]}\log [\textcolor{red}{\lim_{n\to\infty}\frac{n}{\gamma_n}} \sum_{x\in \mathcal{X}} P_{0,n}^{1-\lambda}(x)P_{1,n}^{\lambda}(x)]
+%=-\min_{\lambda\in[0,1]}\log [\textcolor{red}{\lim_{n\to\infty}\frac{n}{\gamma_n}} \sum_{x\in \mathcal{X}} P_{0,n}^{1-\lambda}(x)P_{1,n}^{\lambda}(x)]
 \end{equation*}
 \end{frame}
-\begin{frame}\frametitle{Hypothesis Testing}
-Paired hypothesis testing problem:
-\begin{equation*}
-\begin{cases}
-H_0: X \sim P_{0,n}=(P_n \times Q_n)\\
-H_1: X \sim P_{1,n}=(Q_n \times P_n)
-\end{cases}
-\end{equation*}
-Random variable $X=(X_1, X_2)$: $X_1 \sim P_n, X_2 \sim Q_n, X_1 \independent X_2$
+% \begin{frame}\frametitle{Hypothesis Testing}
+% Paired hypothesis testing problem:
+% \begin{equation*}
+% \begin{cases}
+% H_0: X \sim P_{0,n}=(P_n \times Q_n)\\
+% H_1: X \sim P_{1,n}=(Q_n \times P_n)
+% \end{cases}
+% \end{equation*}
+% Random variable $X=(X_1, X_2)$: $X_1 \sim P_n, X_2 \sim Q_n, X_1 \independent X_2$
 
-Chernoff information for optimal test $\widehat{H}$
-\begin{align*}
-&-\lim_{n\to\infty} \frac{1}{\gamma_n}\log P_e = -\min_{\lambda \in [0,1]}
-\log[\lim_{n\to\infty}\frac{n}{\gamma_n} \sum_{x,y\in \mathcal{X}}
-P^{1-\lambda}_{0,n}(x,y) P^{\lambda}_{1,n}(x,y) ] \\
-&=  -\min_{\lambda \in [0,1]}
-\log[\lim_{n\to\infty}\frac{n}{\gamma_n} \left((\sum_{x\in \mathcal{X}}
-P^{1-\lambda}_{n}(x) Q^{\lambda}_{n}(x)) \cdot
-(\sum_{y\in \mathcal{X}}
-Q^{1-\lambda}_{n}(y) P^{\lambda}_{n}(y)\right) ]
-\end{align*}
-\end{frame}
+% Chernoff information for optimal test $\widehat{H}$
+% \begin{align*}
+% &-\lim_{n\to\infty} \frac{1}{\gamma_n}\log P_e = -\min_{\lambda \in [0,1]}
+% \log[\lim_{n\to\infty}\frac{n}{\gamma_n} \sum_{x,y\in \mathcal{X}}
+% P^{1-\lambda}_{0,n}(x,y) P^{\lambda}_{1,n}(x,y) ] \\
+% &=  -\min_{\lambda \in [0,1]}
+% \log[\lim_{n\to\infty}\frac{n}{\gamma_n} \left((\sum_{x\in \mathcal{X}}
+% P^{1-\lambda}_{n}(x) Q^{\lambda}_{n}(x)) \cdot
+% (\sum_{y\in \mathcal{X}}
+% Q^{1-\lambda}_{n}(y) P^{\lambda}_{n}(y)\right) ]
+% \end{align*}
+% \end{frame}
 \begin{frame}
 \frametitle{
 Stochastic Block Model}
 \begin{itemize}
 \item $Y_i$: label for the $i$-th node
 \item $X_{ij}=1$: an edge exists between node $i$ and $j$
-\item $\color{red}  p_n=\frac{a \log n}{n}, q_n =\frac{a \log n}{n} $
+\item $\color{red}  p_n=\frac{a \log n}{n}, q_n =\frac{b \log n}{n} $
 \end{itemize}
 Procedures:
 \begin{enumerate}
@@ -224,12 +225,33 @@ Misclassfication of label of one node
 \item What's the error rate of the optimal estimator for $Y_1$ and $Y_2$?
 \end{itemize}
 \end{frame}
+\begin{frame}
+\frametitle{
+Hypothesis Testing in Stochastic Block Model} 
+Paired hypothesis testing problem:
+\begin{equation*}
+\begin{cases}
+H_0: Y_1 = 1 \textrm{ and } Y_2 = -1 \iff X \sim P_{0,n} = \Bern(p_n) \times \Bern(q_n)\\
+H_1: Y_1 = -1 \textrm{ and } Y_2 = 1 \iff X \sim P_{1,n} = \Bern(q_n) \times \Bern(p_n)
+\end{cases}
+\end{equation*}
+Choose $\gamma_n = \log n$
+\begin{align*}
+\psi_P(\lambda) &= \lim_{n\to \infty} \frac{n}{\log n} \log E_{P_{0,n}} [e^{\lambda \ell(X)}]\\
+&=a^{1-\lambda}b^{\lambda}
++a^{\lambda}b^{1-\lambda} -a-b
+\end{align*}
+Polynomial error rate
+\begin{equation*}
+-\lim_{n\to\infty} \frac{1}{\log n}\log P_e = -\min_{\lambda} \psi_P(\lambda) = (\sqrt{a}-\sqrt{b})^2
+\end{equation*}
+\end{frame}
 \section{Conclusion}
 \begin{frame}
 \frametitle{Conclusion}
 \begin{itemize}
 \item In paired hypothesis testing, Chernoff information $\Rightarrow$ Rényi divergence with order $\frac{1}{2}$
-\item aaa
+\item Gärtner Ellis Theorem generalizes Cramér Theorem, allowing the deduction of polynomial error rate
 \end{itemize}
 \end{frame}
 
@@ -237,7 +259,7 @@ Misclassfication of label of one node
 \frametitle{}
 \begin{block}{}
 \centering
-{\Huge Thank you!}
+{\Huge Questions and Answers}
 \end{block}
 \end{frame}
 \end{document}
