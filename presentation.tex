@@ -1,0 +1,243 @@
+\documentclass{beamer}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{subcaption}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{algorithmic}
+\usepackage{amssymb}
+\DeclareMathOperator{\Bern}{Bern}
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\lstset{
+numbers=left,
+numbersep=5pt,
+numberstyle=\tiny\color{mygray}
+}
+
+\newif\ifbeamer
+\beamertrue
+
+\title{Hypothesis Testing Problem in Stochastic Block Model}
+\author{Feng Zhao}
+%\institute{\inst{1}Dept. of Electronic Engineering, Tsinghua University
+%	\and \inst{2}Tsinghua-Berkeley Shenzhen Institute, Tsinghua University }
+\date{June 7, 2021}
+\begin{document}
+\begin{frame}
+	\titlepage
+\end{frame}
+\section*{Outline}
+\begin{frame}
+	\tableofcontents
+\end{frame}
+
+\section{Mathematical Formulation}
+\begin{frame}
+\frametitle{Hypothesis Testing}
+Stardard hypothesis testing problem:
+\begin{equation}
+\begin{cases}
+H_0: X \sim P_0 \\
+H_1: X \sim P_1
+\end{cases}
+\end{equation}
+\begin{itemize}
+\item Alphabet of $X$: $\mathcal{X}$
+\item $n$ i.i.d. observations $x^{(n)}=(x_1, \dots, x_n)$
+\item The averaged error
+$$
+P_e := P(\widehat{H}(x^{(n)})=1|H_0)P(H_0) + P(\widehat{H}=0|H_1)P(H_1)
+$$
+\item Chernoff information for optimal test $\widehat{H}$
+\begin{equation}
+-\lim_{n\to\infty} \frac{1}{n}\log P_e = -\min_{\lambda \in [0,1]}
+\log \sum_{x\in \mathcal{X}}
+P^{1-\lambda}_0(x) P^{\lambda}_1(x) 
+\end{equation}
+\end{itemize}
+\end{frame}
+\begin{frame}\frametitle{Hypothesis Testing}
+Paired hypothesis testing problem:
+\begin{equation*}
+\begin{cases}
+H_0: X \sim P_0=(P \times Q)\\
+H_1: X \sim P_1=(Q \times P)
+\end{cases}
+\end{equation*}
+\begin{itemize}
+\item Random variable $X=(X_1, X_2)$: $X_1 \sim P, X_2 \sim Q, X_1 \independent X_2$
+\item Chernoff information for optimal test $\widehat{H}$
+\begin{align*}
+&-\lim_{n\to\infty} \frac{1}{n}\log P_e = -\min_{\lambda \in [0,1]}
+\log \sum_{x,y\in \mathcal{X}}
+P^{1-\lambda}_0(x,y) P^{\lambda}_1(x,y)  \\
+&= -\min_{\lambda \in [0,1]}
+\left(\log \sum_{x\in \mathcal{X}}
+P^{1-\lambda}(x) Q^{\lambda}(x) 
++\log \sum_{y\in \mathcal{X}}
+Q^{1-\lambda}(y) P^{\lambda}(y) 
+\right)
+\end{align*}
+\item $\lambda=\frac{1}{2}$: minimizer
+\end{itemize}
+\end{frame}
+\begin{frame}
+Paired hypothesis testing problem:
+\begin{equation*}
+\begin{cases}
+H_0: X \sim P_0=(P \times Q)\\
+H_1: X \sim P_1=(Q \times P)
+\end{cases}
+\end{equation*}
+Chernoff information for optimal test $\widehat{H}$
+\begin{equation*}
+-\lim \frac{1}{n}\log P_e = -2 \log \sum_{x\in \mathcal{X}} \sqrt{P(x)Q(x)}
+\end{equation*}
+Rényi divergence with order $\frac{1}{2}$
+\begin{equation*}
+D_{1/2}(P||Q) := -2 \log \sum_{x\in \mathcal{X}} \sqrt{P(x)Q(x)}
+\end{equation*}
+\end{frame}
+\section{Stochastic Block Model}
+\begin{frame}
+\frametitle{
+Stochastic Block Model} A probabilistic model to generate random graph
+\begin{itemize}
+\item $Y_i$: label for the $i$-th node
+\item $X_{ij}=1$: an edge exists between node $i$ and $j$
+\end{itemize}
+Procedures:
+\begin{enumerate}
+\item Generate $Y_1, \dots, Y_n$ uniformly from $\{\pm 1\}^n$
+\item Make sure $\sum_{i=1}^n Y_i = 0$
+\item $X_{ij} \sim \Bern(p) $ if $Y_i=Y_j$
+\item $X_{ij} \sim \Bern(q) $ if $Y_i \neq Y_j$
+\end{enumerate}
+Misclassfication of label of one node
+\begin{itemize}
+\item $Y_3, \dots, Y_n$ are given, satisfying $Y_3 + \dots + Y_n  = 0$
+\item What's the error rate of the optimal estimator for $Y_1$ and $Y_2$?
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{
+Hypothesis Testing in Stochastic Block Model} 
+Paired hypothesis testing problem:
+\begin{equation*}
+\begin{cases}
+H_0: Y_1 = 1 \textrm{ and } Y_2 = -1 \iff X \sim \Bern(p) \times \Bern(q)\\
+H_1: Y_1 = -1 \textrm{ and } Y_2 = 1 \iff X \sim \Bern(q) \times \Bern(p)
+\end{cases}
+\end{equation*}
+\begin{itemize}
+\item $n-1$ i.i.d. edge observations of $X$
+\item Chernoff information for optimal test $\widehat{H}$
+\begin{equation*}
+-\lim \frac{1}{n}\log P_e = -2 \log (\sqrt{pq}+\sqrt{(1-p)(1-q)})
+\end{equation*}
+\end{itemize}
+\end{frame}
+\section{Cramér Theorem and Chernoff Information}
+\begin{frame}
+\begin{theorem}[Cramér Theorem]
+$X_1, \dots, X_n  \textrm{ i.i.d.} \sim P$, $\gamma > \mathbb{E}[X_1]$, 
+\begin{equation}
+-\lim_{n\to \infty}\frac{1}{n} \log P\left(\frac{X_1+ \dots + X_n}{n} > \gamma \right)
+= \psi_P^*(\gamma)
+\end{equation}
+\end{theorem}
+Chernoff Information
+\begin{itemize}
+\item $X, X_1, \dots, X_n \textrm{ i.i.d.} \sim P_0$
+\item $\ell(X) = \log\frac{P_1(X)}{P_0(X)} \sim P$
+\end{itemize}
+\begin{equation}
+-\lim_{n\to\infty} \frac{1}{n}\log P_e = \psi^*_P(0)
+\end{equation}
+\end{frame}
+\begin{frame}
+\begin{theorem}[Gärtner Ellis Theorem]
+$X, X_1, \dots, X_n  \textrm{ i.i.d.} \sim P_n$, $\gamma > \lim_{n\to\infty} \frac{n}{\gamma_n}\mathbb{E}[X_1]$, 
+\begin{equation}
+-\lim_{n\to \infty}\frac{1}{\textcolor{red}{\gamma_n}} \log P\left(\frac{X_1+ \dots + X_n}{\textcolor{red}{\gamma_n}} > \gamma \right)
+= \psi_P^*(\gamma)
+\end{equation}
+\begin{itemize}
+\item $\lim_{n\to\infty} \gamma_n = +\infty$
+\item Distribution $P_n$ depends on $n$
+\item log-MGF: $\psi_P(\lambda)=\lim_{n\to\infty} \frac{n}{\gamma_n} \log \mathbb{E}[e^{\lambda X}]$
+\end{itemize}
+\end{theorem}
+Chernoff Information
+\begin{itemize}
+\item $X, X_1, \dots, X_n \textrm{ i.i.d.} \sim P_{0,n}$
+\item $\ell(X) = \log\frac{P_{1,n}(X)}{P_{0,n}(X)} \sim P_n$
+\end{itemize}
+\begin{equation*}
+-\lim_{n\to\infty} \frac{1}{\textcolor{red}{\gamma_n}}\log P_e = \psi^*_P(0)
+=-\min_{\lambda\in[0,1]}\log [\textcolor{red}{\lim_{n\to\infty}\frac{n}{\gamma_n}} \sum_{x\in \mathcal{X}} P_{0,n}^{1-\lambda}(x)P_{1,n}^{\lambda}(x)]
+\end{equation*}
+\end{frame}
+\begin{frame}\frametitle{Hypothesis Testing}
+Paired hypothesis testing problem:
+\begin{equation*}
+\begin{cases}
+H_0: X \sim P_{0,n}=(P_n \times Q_n)\\
+H_1: X \sim P_{1,n}=(Q_n \times P_n)
+\end{cases}
+\end{equation*}
+Random variable $X=(X_1, X_2)$: $X_1 \sim P_n, X_2 \sim Q_n, X_1 \independent X_2$
+
+Chernoff information for optimal test $\widehat{H}$
+\begin{align*}
+&-\lim_{n\to\infty} \frac{1}{\gamma_n}\log P_e = -\min_{\lambda \in [0,1]}
+\log[\lim_{n\to\infty}\frac{n}{\gamma_n} \sum_{x,y\in \mathcal{X}}
+P^{1-\lambda}_{0,n}(x,y) P^{\lambda}_{1,n}(x,y) ] \\
+&=  -\min_{\lambda \in [0,1]}
+\log[\lim_{n\to\infty}\frac{n}{\gamma_n} \left((\sum_{x\in \mathcal{X}}
+P^{1-\lambda}_{n}(x) Q^{\lambda}_{n}(x)) \cdot
+(\sum_{y\in \mathcal{X}}
+Q^{1-\lambda}_{n}(y) P^{\lambda}_{n}(y)\right) ]
+\end{align*}
+\end{frame}
+\begin{frame}
+\frametitle{
+Stochastic Block Model}
+\begin{itemize}
+\item $Y_i$: label for the $i$-th node
+\item $X_{ij}=1$: an edge exists between node $i$ and $j$
+\item $\color{red}  p_n=\frac{a \log n}{n}, q_n =\frac{a \log n}{n} $
+\end{itemize}
+Procedures:
+\begin{enumerate}
+\item Generate $Y_1, \dots, Y_n$ uniformly from $\{\pm 1\}^n$
+\item Make sure $\sum_{i=1}^n Y_i = 0$
+\item $X_{ij} \sim \Bern(\textcolor{red} {p_n} ) $ if $Y_i=Y_j$
+\item $X_{ij} \sim \Bern(\textcolor{red}{q_n} ) $ if $Y_i \neq Y_j$
+\end{enumerate}
+Misclassfication of label of one node
+\begin{itemize}
+\item $Y_3, \dots, Y_n$ are given, satisfying $Y_3 + \dots + Y_n  = 0$
+\item What's the error rate of the optimal estimator for $Y_1$ and $Y_2$?
+\end{itemize}
+\end{frame}
+\section{Conclusion}
+\begin{frame}
+\frametitle{Conclusion}
+\begin{itemize}
+\item In paired hypothesis testing, Chernoff information $\Rightarrow$ Rényi divergence with order $\frac{1}{2}$
+\item aaa
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{}
+\begin{block}{}
+\centering
+{\Huge Thank you!}
+\end{block}
+\end{frame}
+\end{document}

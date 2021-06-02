@@ -47,7 +47,7 @@ Let $A\triangleq \{x\in \mathcal{X}: \widehat{H}(x)=1\}$
 be the accept region for $H=1$.
 \begin{theorem}[Neyman-Pearson Lemma]\label{thm:np}
 Let $A_{\gamma} = \{x:Q(x) > \gamma P(x)\}$
-for $\gamma \in \R$. Then for any accept region $A'$,
+for $\gamma \in \R$ be the accept region for $H=1$. Then for any accept region $A'$,
 if $\pi_1(A') < \pi_1(A_{\gamma})$,
 then $\pi_0(A') > \pi_0(A_{\gamma})$.
 \end{theorem}
@@ -105,7 +105,7 @@ This is because
     &\stackrel{(a)}{\geq} 1 + \E_P[\mathds{1}_{A'}(X)(\gamma - \frac{Q(x)}{P(x)})]\\
     &=\pi_0(A_{\gamma}) + \gamma \pi_1(A_{\gamma})
 \end{align*}
-where (a) holds since the set $A'$ is the maximum
+where (a) holds since the set $A'$ is the maximal
 set which minimizes $\sum_{x\in A} P(x)(\gamma - \frac{Q(x)}{P(x)})$.
 \end{proof}
 \begin{example}\label{ex:1}
@@ -115,6 +115,17 @@ such that $p<\frac{1}{2}<q$. We can verify that
 the solid curve in Fig. \ref{fig:pi01} becomes
 a piece-wise linear line with turning point $(p,1-q)$.
 \end{example}
+In the above example, we emphasize that only
+end point $(0,1),(1,0),(p,1-q)$ are achievable
+for deterministic test. For a large domain of
+$\gamma$, the error configuration is fixed
+at $(p, 1-q)$.
+Other points on the
+solid lines are achieved by introducing
+random decision rule: when $\widehat{H}(x)=1$, with probability $p'$ accept $H=1$ and
+with probability $1-p'$ accept $H=0$. By
+varying the extra parameter $p'$ we can obtain
+points on solid lines.
 \section{Multiple samples}
 In this section we consider the two types of error
 when multiple samples are observed.
@@ -129,9 +140,12 @@ $P$ or $Q$.
 where $P^n$ or $Q^n$ represents the joint distribution of distribution of $X^n$. Then the LRT is rewritten
 as $\frac{1}{n}\sum_{i=1}^n \ell(x_i)$ where
 $\ell(x)=\log \frac{Q(x)}{P(x)}$. The decision rule for LRT
-is $A_{\gamma} \triangleq \{
+is
+\begin{equation}\label{eq:AgammaN}
+    A_{\gamma} \triangleq \{
 x^n: \frac{1}{n}\sum_{i=1}^n \ell(x_i) > \gamma
-\}$,
+\}
+\end{equation}
 and the two types of error are given by
 \begin{align*}
     \pi_0^{(n)} &= P^n(A_{\gamma}) \\
@@ -159,7 +173,7 @@ $E_0 = \psi^*_P(\gamma)$ and $E_1 = \psi^*_Q(\gamma)$.
 
 Let the log-MGF $\psi_P(\lambda)\triangleq \log \E_{P}
 [\exp(\lambda \ell(X))] = \log \sum_{x\in\mathcal{X}}
-[P(X)]^{1-\lambda}[Q(x)]^{\lambda}$.
+[P(x)]^{1-\lambda}[Q(x)]^{\lambda}$.
 Using $Q(x)=P(x)e^{\ell(x)}$, we can obtain
 $\psi_Q(\lambda)\triangleq \log \E_{Q}
 [\exp(\lambda \ell(X))] = \log \E_{P}
@@ -197,7 +211,7 @@ $\psi_Q^*(\gamma)
 $.
 
 We can draw the function $\psi_P(\lambda)$ and illustrate it
-in Fig. \ref{fig:psiell}. At the point $(\lambda_0, \psi_P(\lambda)$,
+in Fig. \ref{fig:psiell}. At the point $(\lambda_0, \psi_P(\lambda))$,
 the slope of the tangent line is $\gamma$ such that
 $\psi'_P(\lambda_0)=\gamma$. Since $\psi_P^*(\gamma) = \gamma \lambda_0 - \psi_P(\lambda_0)$. The geometric meaning of $E_0$ is the length
 of the intercept for the tangent line, and $E_1$ is the length of
@@ -213,6 +227,18 @@ One error increases while the other decreases.
     \caption{log-MGF of $\ell(X)$}
     \label{fig:psiell}
 \end{figure}
+
+We summarize important formulas in this subsection:
+\begin{align}\label{eq:cramer_important}
+    \psi_P(\lambda)&=\log \sum_{x\in\mathcal{X}}
+[P(x)]^{1-\lambda}[Q(x)]^{\lambda} \\
+    \gamma &= \psi'_P(\lambda)= \frac{\sum_{x\in\mathcal{X}}
+\log\frac{Q(x)}{P(x)}\cdot[P(X)]^{1-\lambda}[Q(x)]^{\lambda}}
+{\sum_{x\in\mathcal{X}}
+[P(X)]^{1-\lambda}[Q(x)]^{\lambda}} \\
+E_0 &= \lambda \gamma - \psi_P(\lambda) \\
+E_1 & = E_0 - \gamma
+\end{align}
 \subsection{Analysis of exponent with Sanov's Theorem}
 Since we consider discrete random variables, Sanov's theorem
 can be applied to obtain another illustration for $E_0$
@@ -291,7 +317,149 @@ LRT, that is, to maximize $\min\{E_0, E_1\}$.
 From Fig.
 \ref{fig:ds}, the maximization is achieved
 when $\gamma=\psi'_P(\lambda)=0$.
+\begin{example}\label{ex:2}
+We extend Example \ref{ex:1} and consider
+$n$ samples either from $\Bern(p)$ or $\Bern(q)$.
+NP-Test has the following form (from \eqref{eq:AgammaN}):
+\begin{equation}
+A_{\gamma}: \frac{x_1 + \dots + x_n}{n} > \tilde{\gamma} \textrm{ where } \tilde{\gamma}
+= \frac{\gamma - \log \frac{1-q}{1-p} }{\log \frac{q(1-p)}{p(1-q)}}
+\end{equation}
+For $n=2$, we describe the relationship
+of $\pi_0, \pi_1$ in Figure \ref{fig:pi0n2}. Notice
+that the solid line (representing $n=2$) is strictly
+under the dotted line (representing $n=1$). The solid
+line has two turning points (in red). As we increase $n$,
+the $\pi_0-\pi_1$ curve becomes much closer to
+the axes.
+\end{example}
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.6\textwidth]{pi0pi1_bern_2.eps}
+    \caption{$\pi_0-\pi_1$ curve for $n=1,2$}
+    \label{fig:pi0n2}
+\end{figure}
+We take $p=0.3,q=0.8$ in Example
+\ref{ex:2}, and compute $E_0, E_1$ for
+$\lambda \in (0,1)$ from series of formulas in 
+\eqref{eq:cramer_important}. The result is shown
+in Figure \ref{fig:trade}
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.6\textwidth]{trade_off.eps}
+    \caption{}\label{fig:trade}
+\end{figure}
+We make a few remarks.
+\begin{enumerate}
+    \item $E_1$ is a decreasing function of $E_0$;
+    \item $\max E_1 = D(P||Q)$ and $\max E_0 = D(Q||P)$,
+    which are error exponent achieved in Chernoff-Stein Lemma;
+    \item The Chernoff information is the intersection
+    of $E_1=E_0$ with the curve.
+\end{enumerate}
+\section{Type-based test}
+ We say a test
+ is optimal among all tests whose exponent $E_0 \geq \eta$, it has the largest $E_1$ exponent.
+ Notice that the optimality of a test is studies
+ in asymptotic region.
+ In this section, we want to answer the following
+ three questions based on Theorem
+ \ref{thm:type_based} and Theorem.
+ \begin{enumerate}
+     \item Is NP-Test the only optimal test? (No, we have generalized likelihood ratio test)
+     \item Is type-based decision (test) optimal?
+     (Yes, when we consider optimal test, we only need to consider the decision rule which is
+     functions of empirical measure of the data)
+     \item Are both underlying distributions needed to construct an optimal test? (No, we only need
+     distribution $P$.)
+ \end{enumerate}
+ For the third question, we notice that NP-Test
+ in the form of \eqref{eq:AgammaN}
+ depends on both underlying distribution $P$
+ and $Q$.
+ 
+ Firstly we give a theorem that answers the second question, that is, given any test, we can construct
+ a type-based test whose errors are controlled by
+ those of the given test.
+\begin{theorem}\label{thm:type_based}
+Given $\widehat{H}:
+\mathcal{X}: \mathcal{X}^n \to \{0,1\}$, we can construct
+a type-based decision $\widehat{H}':
+\mathcal{X}^n \to \{0,1\}$ such that
+$\pi_i(\widehat{H}') \leq 2\pi_i(\widehat{H}) $.
+\end{theorem}
+\begin{proof}
+Let $A_1 \triangleq \{ x^n \in \mathcal{X}^n
+: \widehat{H}(x^n) = 1 \}$. We define
+\begin{equation*}
+\widehat{H}'(x^n)
+= \begin{cases}
+1 & \textrm{ if }  \frac{|T_{\hat{P}_{X^n}} \cap A_1|}{|T_{\hat{P}_{X^n}}|} > \frac{1}{2}\\
+0 & \textrm{ otherwise}
+\end{cases}
+\end{equation*}
+where $T_{\hat{P}_{X^n}} $ is the type class of $x^n$. $\widehat{H}$ is actually a function of 
+type class $Q_X$.
+
+Suppose $Q_X$ is a type class satisfying $\widehat{H}'(Q_X)=1$.
+Then $
+\frac{P(\widehat{H}(Q_X)=1 | H=i)}{P(Q_X | H=i)}
+= P(\widehat{H}(Q_X)=1 | Q_X, H = i)$ for $i=0,1$.
+Given $Q_X$, $\widehat{H}$ is uniform for both $H=0$
+and $H=1$. $\widehat{H}(Q_X)=1$ represents the event
+that $\widehat{H}(x^n)=1, x^n \in Q_X$.
+That is,
+$P(\widehat{H}(Q_X)=1 | Q_X, H=i) = \frac{|Q_X \cap A_1|}{|Q_X|} > \frac{1}{2}$. Therefore,
+we obtain $P(\widehat{H}(Q_X)=1|H=i) > \frac{1}{2}
+P(Q_X|H=i)$ for $\widehat{H}'(Q_X)=1$.
+Now $\pi_0(\widehat{H})=P(\widehat{H}=1|H=0)
+=\sum_{Q_X \in \hat{P}_n^*}
+P(\widehat{H}(Q^X)=1|H=0) \geq 
+\sum_{Q_X \in \hat{P}_n^*, \widehat{H}'(Q_X)=1}
+P(\widehat{H}(Q^X)=1|H=0)
+\geq \frac{1}{2}
+\sum_{Q_X \in \hat{P}_n^*, \widehat{H}'(Q_X)=1}
+P(Q_X|H=0)=P(\widehat{H}'=1 | H=0)=\pi_0(\widehat{H}')
+$.
+
+Similarly, we let $A_0\triangleq \mathcal{X}^n \backslash A_1 = \{
+x^n \in \mathcal{X}^n
+: \widehat{H}(x^n) = 0
+\}$. Then an equivalent definition of $\widehat{H}'(x^n)$ is given by
+\begin{equation*}
+\widehat{H}'(x^n)
+= \begin{cases}
+0 & \textrm{ if }  \frac{|T_{\hat{P}_{X^n}} \cap A_0|}{|T_{\hat{P}_{X^n}}|} > \frac{1}{2}\\
+1 & \textrm{ otherwise}
+\end{cases}
+\end{equation*}
+Suppose $Q_X$ is a type class satisfying $\widehat{H}'(Q_X)=0$.
+Then $
+\frac{P(\widehat{H}(Q_X)=0 | H=i)}{P(Q_X | H=i)}
+= P(\widehat{H}(Q_X)=0 | Q_X, H = i)$ for $i=0,1$.
+Given $Q_X$, $\widehat{H}$ is uniform for both $H=0$
+and $H=1$. That is,
+$P(\widehat{H}(Q_X)=0 | Q_X, H=i) = \frac{|Q_X \cap A_0|}{|Q_X|} > \frac{1}{2}$. Therefore,
+we obtain $P(\widehat{H}(Q_X)=0|H=i) > \frac{1}{2}
+P(Q_X|H=i)$ for $\widehat{H}'(Q_X)=0$.
+Now $\pi_1(\widehat{H})=P(\widehat{H}=0|H=1)
+=\sum_{Q_X \in \hat{P}_n^*}
+P(\widehat{H}(Q^X)=0|H=1) \geq 
+\sum_{Q_X \in \hat{P}_n^*, \widehat{H}'(Q_X)=0}
+P(\widehat{H}(Q^X)=0|H=1)
+\geq \frac{1}{2}
+\sum_{Q_X \in \hat{P}_n^*, \widehat{H}'(Q_X)=0}
+P(Q_X|H=i)=P(\widehat{H}'=0 | H=1)
+=\pi_1(\widehat{H}')
+$.
+\end{proof}
+\bibliographystyle{plain}
+\begin{thebibliography}{9}  
+\bibitem{dembo} Dembo A., \& Zeitoni O. (1998). Large deviations techniques and applications, Springer, New York
+
+\end{thebibliography}
 \end{document}
+
 
 
 
