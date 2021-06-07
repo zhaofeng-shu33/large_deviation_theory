@@ -1,4 +1,5 @@
 \documentclass{beamer}
+\usefonttheme{professionalfonts}
 \usepackage{graphicx}
 \usepackage{array}
 \usepackage{subcaption}
@@ -6,6 +7,7 @@
 \usepackage{color}
 \usepackage{algorithmic}
 \usepackage{amssymb}
+
 \DeclareMathOperator{\Bern}{Bern}
 \newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
 \def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
@@ -38,25 +40,25 @@ numberstyle=\tiny\color{mygray}
 \begin{frame}
 \frametitle{Hypothesis Testing}
 Stardard hypothesis testing problem:
-\begin{equation}
+\begin{equation*}
 \begin{cases}
 H_0: X \sim P_0 \\
 H_1: X \sim P_1
 \end{cases}
-\end{equation}
+\end{equation*}
 \begin{itemize}
-\item Alphabet of $X$: $\mathcal{X}$
+\item Discrete alphabet of $X$: $\mathcal{X}$
 \item $n$ i.i.d. observations $x^{(n)}=(x_1, \dots, x_n)$
 \item The averaged error
 $$
-P_e := P(\widehat{H}(x^{(n)})=1|H_0)P(H_0) + P(\widehat{H}=0|H_1)P(H_1)
+P_e := P(\widehat{H}=1|H_0)P(H_0) + P(\widehat{H}=0|H_1)P(H_1)
 $$
 \item Chernoff information for optimal test $\widehat{H}$
-\begin{equation}
+\begin{equation*}
 -\lim_{n\to\infty} \frac{1}{n}\log P_e = -\min_{\lambda \in [0,1]}
 \log \sum_{x\in \mathcal{X}}
 P^{1-\lambda}_0(x) P^{\lambda}_1(x) 
-\end{equation}
+\end{equation*}
 \end{itemize}
 \end{frame}
 \begin{frame}\frametitle{Hypothesis Testing}
@@ -133,7 +135,7 @@ H_1: Y_1 = -1 \textrm{ and } Y_2 = 1 \iff X \sim \Bern(q) \times \Bern(p)
 \end{cases}
 \end{equation*}
 \begin{itemize}
-\item $n-1$ i.i.d. edge observations of $X$
+\item $n-1$ i.i.d.  observations of $X$
 \item Chernoff information for optimal test $\widehat{H}$
 \begin{equation*}
 -\lim_{n\to\infty} \frac{1}{n}\log P_e = -2 \log (\sqrt{pq}+\sqrt{(1-p)(1-q)})
@@ -145,27 +147,27 @@ H_1: Y_1 = -1 \textrm{ and } Y_2 = 1 \iff X \sim \Bern(q) \times \Bern(p)
 \begin{frame}
 \begin{theorem}[Cramér Theorem]
 $X_1, \dots, X_n  \textrm{ i.i.d.} \sim P$, $\gamma > \mathbb{E}[X_1]$, 
-\begin{equation}
+\begin{equation*}
 -\lim_{n\to \infty}\frac{1}{n} \log P\left(\frac{X_1+ \dots + X_n}{n} > \gamma \right)
 = \psi_P^*(\gamma)
-\end{equation}
+\end{equation*}
 \end{theorem}
 Chernoff Information
 \begin{itemize}
 \item $X, X_1, \dots, X_n \textrm{ i.i.d.} \sim P_0$
 \item $\ell(X) = \log\frac{P_1(X)}{P_0(X)} \sim P$
 \end{itemize}
-\begin{equation}
+\begin{equation*}
 -\lim_{n\to\infty} \frac{1}{n}\log P_e = \psi^*_P(0)
-\end{equation}
+\end{equation*}
 \end{frame}
 \begin{frame}
 \begin{theorem}[Gärtner Ellis Theorem]
 $X, X_1, \dots, X_n  \textrm{ i.i.d.} \sim P_n$, $\gamma > \lim_{n\to\infty} \frac{n}{\gamma_n}\mathbb{E}[X_1]$, 
-\begin{equation}
+\begin{equation*}
 -\lim_{n\to \infty}\frac{1}{\textcolor{red}{\gamma_n}} \log P\left(\frac{X_1+ \dots + X_n}{\textcolor{red}{\gamma_n}} > \gamma \right)
 = \psi_P^*(\gamma)
-\end{equation}
+\end{equation*}
 \begin{itemize}
 \item $\lim_{n\to\infty} \gamma_n = +\infty$
 \item Distribution $P_n$ depends on $n$
@@ -251,7 +253,7 @@ Polynomial error rate
 \frametitle{Conclusion}
 \begin{itemize}
 \item In paired hypothesis testing, Chernoff information $\Rightarrow$ Rényi divergence with order $\frac{1}{2}$
-\item Gärtner Ellis Theorem generalizes Cramér Theorem, allowing the deduction of polynomial error rate
+\item Gärtner Ellis Theorem generalizes Cramér Theorem, allowing the derivation of polynomial error rate
 \end{itemize}
 \end{frame}
 
